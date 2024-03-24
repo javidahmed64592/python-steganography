@@ -70,24 +70,24 @@ class Steganographer:
         self._img = np.reshape(self._img_array, self._img_shape)
 
     def _insert_msg(self, msg: str) -> None:
-        self._make_img_array()
         self._img_array = Steganographer._make_img_even(self._img_array)
         _msg_bytes = np.array(Steganographer._msg_to_bytes_list(msg), dtype="uint8")
         self._img_array[: len(_msg_bytes)] += _msg_bytes
         self._recreate_img()
 
     def _extract_msg(self) -> None:
-        self._make_img_array()
         _msg_bytes = self._img_array % 2
         _char_list = Steganographer._bytes_list_to_msg(_msg_bytes)
         self._msg = "".join(_char_list)
 
     def encode_img(self, filepath: Path, msg: str, output_name: str) -> None:
         self._load_img(filepath)
+        self._make_img_array()
         self._insert_msg(msg)
         self._save_img(output_name)
 
     def decode_img(self, filepath: Path) -> str:
         self._load_img(filepath)
+        self._make_img_array()
         self._extract_msg()
         return self._msg
