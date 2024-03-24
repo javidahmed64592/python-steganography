@@ -20,24 +20,24 @@ class Steganographer:
 
     @staticmethod
     def _char_to_bytes_list(char: str) -> List[int]:
-        char_bin = bin(ord(char))
-        char_bytes = char_bin[2:]
-        padding = [0] * (7 - len(char_bytes))
-        bytes_list = padding + [int(b) for b in char_bytes]
+        _char_bin = bin(ord(char))
+        _char_bytes = _char_bin[2:]
+        _padding = [0] * (7 - len(_char_bytes))
+        bytes_list = _padding + [int(b) for b in _char_bytes]
         return bytes_list
 
     @staticmethod
     def _msg_to_bytes_list(msg: str) -> List[int]:
         bytes_list = []
-        for char in msg:
-            bytes_list += Steganographer._char_to_bytes_list(char)
+        for _char in msg:
+            bytes_list += Steganographer._char_to_bytes_list(_char)
         return bytes_list
 
     @staticmethod
     def _bytes_list_to_char(bytes_list: List[int]) -> str:
-        b = np.array([2 ** (6 - i) for i in range(7)])
-        char_ord = np.sum(b * bytes_list)
-        char = chr(char_ord)
+        _b = np.array([2 ** (6 - i) for i in range(7)])
+        _char_ord = np.sum(_b * bytes_list)
+        char = chr(_char_ord)
         return char
 
     @staticmethod
@@ -72,15 +72,15 @@ class Steganographer:
     def _insert_msg(self, msg: str) -> None:
         self._make_img_array()
         self._img_array = Steganographer._make_img_even(self._img_array)
-        msg_bytes = np.array(Steganographer._msg_to_bytes_list(msg), dtype="uint8")
-        self._img_array[: len(msg_bytes)] += msg_bytes
+        _msg_bytes = np.array(Steganographer._msg_to_bytes_list(msg), dtype="uint8")
+        self._img_array[: len(_msg_bytes)] += _msg_bytes
         self._recreate_img()
 
     def _extract_msg(self) -> None:
         self._make_img_array()
         _msg_bytes = self._img_array % 2
-        char_list = Steganographer._bytes_list_to_msg(_msg_bytes)
-        self._msg = "".join(char_list)
+        _char_list = Steganographer._bytes_list_to_msg(_msg_bytes)
+        self._msg = "".join(_char_list)
 
     def encode_img(self, filepath: Path, msg: str, output_name: str) -> None:
         self._load_img(filepath)
