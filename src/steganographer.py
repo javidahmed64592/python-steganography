@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List
+from typing import List, Tuple, cast
 
 import numpy as np
 import skimage as ski
@@ -11,14 +11,15 @@ from helpers import system_msg
 class Steganographer:
     def __init__(self):
         self._img: NDArray
-        self._img_shape: NDArray
+        self._img_shape: Tuple[int, ...]
         self._img_dir: Path
         self._img_array: NDArray
         self._msg: str
 
     @staticmethod
     def _make_img_even(img: NDArray) -> NDArray:
-        return img - (img % 2)
+        img_array: NDArray = img - (img % 2)
+        return img_array
 
     @staticmethod
     def _char_to_bytes_list(char: str) -> List[int]:
@@ -44,18 +45,19 @@ class Steganographer:
 
     @staticmethod
     def _bytes_list_to_msg(bytes_list: List[int]) -> str:
-        char_list = []
+        _char_list = []
         i = 0
         while True:
-            char_bytes = bytes_list[i : i + 7]
-            char = Steganographer._bytes_list_to_char(char_bytes)
-            if ord(char) == 0:
+            _char_bytes = bytes_list[i : i + 7]
+            _char = Steganographer._bytes_list_to_char(_char_bytes)
+            if ord(_char) == 0:
                 break
 
-            char_list.append(char)
+            _char_list.append(_char)
             i += 7
 
-        return char_list
+        msg = "".join(_char_list)
+        return msg
 
     def _load_img(self, filepath: Path) -> None:
         system_msg(f"Loading image '{filepath}'...")
@@ -84,7 +86,7 @@ class Steganographer:
 
     def _extract_msg(self) -> None:
         system_msg("Extracting message...")
-        _msg_bytes = self._img_array % 2
+        _msg_bytes = cast(List[int], self._img_array % 2)
         _char_list = Steganographer._bytes_list_to_msg(_msg_bytes)
         self._msg = "".join(_char_list)
 
