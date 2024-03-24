@@ -17,7 +17,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Process some integers.")
+    parser = argparse.ArgumentParser(description="Steganography application.")
     parser.add_argument("-encode", action="store_true", help="Insert a message into an image")
     parser.add_argument("-decode", action="store_true", help="Extract a message from an image")
     parser.add_argument("--input_img", type=str, nargs="+", help="Path to image file")
