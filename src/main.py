@@ -1,12 +1,8 @@
 import argparse
-from datetime import datetime
 from pathlib import Path
 
+from helpers import system_msg
 from steganographer import Steganographer
-
-
-def system_msg(msg: str) -> None:
-    print(f"[{datetime.now().isoformat()}] {msg}")
 
 
 def main(args):
