@@ -17,7 +17,7 @@ class Steganographer:
         self._msg: str
 
     @staticmethod
-    def _make_img_even(img: NDArray) -> NDArray:
+    def _even_img(img: NDArray) -> NDArray:
         img_array: NDArray = img - (img % 2)
         return img_array
 
@@ -79,7 +79,7 @@ class Steganographer:
 
     def _insert_msg(self, msg: str) -> None:
         system_msg(f"Inserting message '{msg}' into image...")
-        self._img_array = Steganographer._make_img_even(self._img_array)
+        self._img_array = Steganographer._even_img(self._img_array)
         _msg_bytes = np.array(Steganographer._msg_to_bytes_list(msg), dtype="uint8")
         self._img_array[: len(_msg_bytes)] += _msg_bytes
         self._recreate_img()
