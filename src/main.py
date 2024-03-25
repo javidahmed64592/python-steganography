@@ -16,8 +16,7 @@ def main(args: argparse.Namespace) -> None:
     if args.encode:
         steg.encode_img(Path(args.input_img[0]), args.msg_file[0], args.output_img[0])
     elif args.decode:
-        msg = steg.decode_img(Path(args.input_img[0]))
-        system_msg(f"Extracted message: {msg}")
+        steg.decode_img(Path(args.input_img[0]), Path(args.output_file[0]))
     else:
         system_msg("Error! Need to specify -encode or -decode!")
 
@@ -29,5 +28,6 @@ if __name__ == "__main__":
     parser.add_argument("--input_img", type=str, nargs="+", help="Path to image file to encode/decode")
     parser.add_argument("--msg_file", type=str, nargs="+", help="Path to message file to insert into image if encoding")
     parser.add_argument("--output_img", type=str, nargs="+", help="Name for encoded image if encoding")
+    parser.add_argument("--output_file", type=str, nargs="+", help="Path to decoded message text file if decoding")
     args = parser.parse_args()
     main(args)

@@ -4,7 +4,7 @@ from typing import List, Tuple
 import numpy as np
 from numpy.typing import NDArray
 
-from helpers import load_img, read_txt_file, save_img, system_msg
+from helpers import load_img, read_txt_file, save_img, system_msg, write_to_txt_file
 
 
 class Steganographer:
@@ -170,6 +170,17 @@ class Steganographer:
         _msg_bytes = (self._img_array % 2).tolist()
         _char_list = Steganographer._bytes_list_to_msg(_msg_bytes)
         self._msg = "".join(_char_list)
+        system_msg(f"Decoded message: {self._msg}")
+
+    def _save_msg_to_txt_file(self, filepath: Path) -> None:
+        """
+        Save decoded message to text file.
+
+        Parameters:
+            filepath (Path): Path to output text file
+        """
+        system_msg(f"Saving message to text file `{filepath}`...")
+        write_to_txt_file(filepath, self._msg)
 
     def encode_img(self, filepath: Path, msg_file: Path, output_name: str) -> None:
         """
@@ -187,11 +198,15 @@ class Steganographer:
         self._recreate_img()
         self._save_img(output_name)
 
-    def decode_img(self, filepath: Path) -> str:
+    def decode_img(self, filepath: Path, output_file: Path) -> None:
         """
         Extract a message from a modified image.
+
+        Parameters:
+            filepath (Path): Path to image file
+            output_file (Path): Path to text file with decoded message
         """
         self._load_img(filepath)
         self._make_img_array()
         self._extract_msg()
-        return self._msg
+        self._save_msg_to_txt_file(output_file)

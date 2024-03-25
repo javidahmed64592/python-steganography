@@ -53,3 +53,15 @@ def read_txt_file(filepath: Path) -> str:
     with open(filepath, "r") as file:
         contents = file.read()
         return contents
+
+
+def write_to_txt_file(filepath: Path, contents: str) -> None:
+    """
+    Write a string to a text file.
+
+    Parameters:
+        filepath (Path): Path to text file
+        contents (str): Contents to write to text file
+    """
+    with open(filepath, "w") as file:
+        contents = file.write(contents)
