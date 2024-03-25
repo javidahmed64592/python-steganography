@@ -1,7 +1,6 @@
 import argparse
 from pathlib import Path
 
-from src.helpers import system_msg
 from src.steganographer import Steganographer
 
 
@@ -18,7 +17,7 @@ def main(args: argparse.Namespace) -> None:
     elif args.decode:
         steg.decode_img(Path(args.input_img[0]), Path(args.output_file[0]))
     else:
-        system_msg("Error! Need to specify -encode or -decode!")
+        steg.print_error_message()
 
 
 if __name__ == "__main__":

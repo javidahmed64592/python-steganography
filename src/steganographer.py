@@ -210,3 +210,9 @@ class Steganographer:
         self._make_img_array()
         self._extract_msg()
         self._save_msg_to_txt_file(output_file)
+
+    def print_error_message(self) -> None:
+        """
+        Print error message to console.
+        """
+        system_msg("Error! Need to specify -encode or -decode!")
