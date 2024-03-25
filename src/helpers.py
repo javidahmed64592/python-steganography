@@ -25,7 +25,7 @@ def load_img(filepath: Path) -> NDArray:
     Returns:
         image_array (NDArray): Image as array of RGBA values
     """
-    image_array = ski.io.imread(filepath)
+    image_array: NDArray = ski.io.imread(filepath)
     return image_array
 
 
