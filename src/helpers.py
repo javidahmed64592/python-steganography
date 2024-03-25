@@ -64,4 +64,4 @@ def write_to_txt_file(filepath: Path, contents: str) -> None:
         contents (str): Contents to write to text file
     """
     with open(filepath, "w") as file:
-        contents = file.write(contents)
+        file.write(contents)
