@@ -4,7 +4,7 @@ from typing import List, Tuple
 import numpy as np
 from numpy.typing import NDArray
 
-from helpers import load_img, save_img, system_msg
+from helpers import load_img, read_txt_file, save_img, system_msg
 
 
 class Steganographer:
@@ -171,17 +171,18 @@ class Steganographer:
         _char_list = Steganographer._bytes_list_to_msg(_msg_bytes)
         self._msg = "".join(_char_list)
 
-    def encode_img(self, filepath: Path, msg: str, output_name: str) -> None:
+    def encode_img(self, filepath: Path, msg_file: Path, output_name: str) -> None:
         """
         Insert a message into an image file and save the modified image.
 
         Parameters:
             filepath (Path): Path to image file
-            msg (str): Message to insert into image
+            msg_file (Path): Path to text file with message to insert into image
             output_name (str): Name for modified image file
         """
         self._load_img(filepath)
         self._make_img_array()
+        msg = read_txt_file(msg_file)
         self._insert_msg(msg)
         self._recreate_img()
         self._save_img(output_name)

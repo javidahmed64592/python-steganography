@@ -38,3 +38,18 @@ def save_img(filepath: Path, img: NDArray) -> None:
         img (NDArray): Image array to save
     """
     ski.io.imsave(filepath, img)
+
+
+def read_txt_file(filepath: Path) -> str:
+    """
+    Read a text file and return its contents.
+
+    Parameters:
+        filepath (Path): Path to text file
+
+    Returns:
+        contents (str): Contents of text file
+    """
+    with open(filepath, "r") as file:
+        contents = file.read()
+        return contents
