@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 numpy = "~=1.25"
 scikit-image = "*"
+pytest = "*"
 
 [dev-packages]
 isort = "*"
@@ -19,3 +20,4 @@ python_version = "3.11"
 [scripts]
 encode = "python main.py -encode "
 decode = "python main.py -decode "
+test = 'python -m pytest -vx'
