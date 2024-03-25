@@ -8,6 +8,8 @@ from src.helpers import load_img, read_txt_file, save_img, system_msg, write_to_
 
 
 class Steganographer:
+    _BIT_MAP = np.array([2 ** (6 - i) for i in range(7)])
+
     def __init__(self):
         """
         Initialise Steganographer object and define types.
@@ -84,8 +86,7 @@ class Steganographer:
         Returns:
             char (str): Single ASCII character
         """
-        _b = np.array([2 ** (6 - i) for i in range(7)])
-        _char_ord = np.sum(_b * byte_list)
+        _char_ord = np.sum(Steganographer._BIT_MAP * byte_list)
         char = chr(_char_ord)
         return char
 
@@ -104,6 +105,9 @@ class Steganographer:
         i = 0
         while True:
             _char_byte = bytes_list[i : i + 7]
+            if not _char_byte:
+                break
+
             _char = Steganographer._byte_list_to_char(_char_byte)
             if ord(_char) == 0:
                 break
