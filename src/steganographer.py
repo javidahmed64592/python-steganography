@@ -130,15 +130,15 @@ class Steganographer:
         self._img_shape = self._img.shape
         self._img_dir = filepath.parent
 
-    def _save_img(self, filename: str) -> None:
+    def _save_img(self, filepath: Path) -> None:
         """
         Save image using filename in same directory as source image.
 
         Parameters:
-            filename (str): Name for output image file
+            filepath (Path): Path for output image file
         """
-        system_msg(f"Saving image '{filename}.png'...")
-        save_img(self._img_dir / f"{filename}.png", self._img)
+        system_msg(f"Saving image '{filepath}'...")
+        save_img(filepath, self._img)
 
     def _make_img_array(self) -> None:
         """
@@ -186,21 +186,21 @@ class Steganographer:
         system_msg(f"Saving message to text file `{filepath}`...")
         write_to_txt_file(filepath, self._msg)
 
-    def encode_img(self, filepath: Path, msg_file: Path, output_name: str) -> None:
+    def encode_img(self, filepath: Path, msg_file: Path, output_img: Path) -> None:
         """
         Insert a message into an image file and save the modified image.
 
         Parameters:
             filepath (Path): Path to image file
             msg_file (Path): Path to text file with message to insert into image
-            output_name (str): Name for modified image file
+            output_img (Path): Path for modified image file
         """
         self._load_img(filepath)
         self._make_img_array()
         msg = read_txt_file(msg_file)
         self._insert_msg(msg)
         self._recreate_img()
-        self._save_img(output_name)
+        self._save_img(output_img)
 
     def decode_img(self, filepath: Path, output_file: Path) -> None:
         """
