@@ -16,7 +16,6 @@ class Steganographer:
         """
         self._img: NDArray
         self._img_shape: Tuple[int, ...]
-        self._img_dir: Path
         self._img_array: NDArray
         self._msg: str
 
@@ -128,7 +127,6 @@ class Steganographer:
         system_msg(f"Loading image '{filepath}'...")
         self._img = load_img(filepath)
         self._img_shape = self._img.shape
-        self._img_dir = filepath.parent
 
     def _save_img(self, filepath: Path) -> None:
         """
@@ -161,7 +159,7 @@ class Steganographer:
         Parameters:
             msg (str): Message to insert into image
         """
-        system_msg(f"Inserting message '{msg}' into image...")
+        system_msg(f"Inserting message of length {len(msg)} into image...")
         self._img_array = Steganographer._even_img(self._img_array)
         _msg_bytes = np.array(Steganographer._msg_to_bytes_list(msg), dtype="uint8")
         self._img_array[: len(_msg_bytes)] += _msg_bytes
@@ -174,7 +172,7 @@ class Steganographer:
         _msg_bytes = (self._img_array % 2).tolist()
         _char_list = Steganographer._bytes_list_to_msg(_msg_bytes)
         self._msg = "".join(_char_list)
-        system_msg(f"Decoded message: {self._msg}")
+        system_msg(f"Decoded message length: {len(self._msg)}")
 
     def _save_msg_to_txt_file(self, filepath: Path) -> None:
         """
@@ -195,12 +193,15 @@ class Steganographer:
             msg_file (Path): Path to text file with message to insert into image
             output_img (Path): Path for modified image file
         """
+        system_msg("=== Encoding image ===")
+        system_msg(f"Input image: `{filepath}` | Output image: `{output_img}` | Message file: `{msg_file}`")
         self._load_img(filepath)
         self._make_img_array()
         msg = read_txt_file(msg_file)
         self._insert_msg(msg)
         self._recreate_img()
         self._save_img(output_img)
+        system_msg("=== Encoding complete! ===")
 
     def decode_img(self, filepath: Path, output_file: Path) -> None:
         """
@@ -210,10 +211,13 @@ class Steganographer:
             filepath (Path): Path to image file
             output_file (Path): Path to text file with decoded message
         """
+        system_msg("=== Decoding image ===")
+        system_msg(f"Input image: `{filepath}` | Output file: `{output_file}`")
         self._load_img(filepath)
         self._make_img_array()
         self._extract_msg()
         self._save_msg_to_txt_file(output_file)
+        system_msg("=== Decoding complete! ===")
 
     def print_error_message(self) -> None:
         """
