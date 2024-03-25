@@ -4,7 +4,7 @@ from typing import List, Tuple
 import numpy as np
 from numpy.typing import NDArray
 
-from helpers import load_img, read_txt_file, save_img, system_msg, write_to_txt_file
+from src.helpers import load_img, read_txt_file, save_img, system_msg, write_to_txt_file
 
 
 class Steganographer:

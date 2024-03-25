@@ -1,8 +1,8 @@
 import argparse
 from pathlib import Path
 
-from helpers import system_msg
-from steganographer import Steganographer
+from src.helpers import system_msg
+from src.steganographer import Steganographer
 
 
 def main(args: argparse.Namespace) -> None:
